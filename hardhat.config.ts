@@ -62,29 +62,29 @@ const config: HardhatUserConfig = {
     hardhat: {
       ...(shouldRunInForkMode
         ? {
-            // Forking Config for Deployment Testing
-            chainId: 5000,
-            forking: {
-              url: process.env.MANTLE_MAINNET_URL,
+          // Forking Config for Deployment Testing
+          chainId: 5000,
+          forking: {
+            url: process.env.MANTLE_MAINNET_URL,
+          },
+          accounts: [
+            {
+              privateKey: process.env.PRIVATE_KEY!,
+              // This is a dummy value and will be overriden in the test by
+              // the account's actual balance from the forked chain
+              balance: "10000000000000000000000000",
             },
-            accounts: [
-              {
-                privateKey: process.env.PRIVATE_KEY!,
-                // This is a dummy value and will be overriden in the test by
-                // the account's actual balance from the forked chain
-                balance: "10000000000000000000000000",
-              },
-            ],
-          }
+          ],
+        }
         : {
-            // Normal Config
-            accounts: {
-              accountsBalance: "10000000000000000000000000",
-              //   mnemonic: MNEMONIC,
-            },
-            allowUnlimitedContractSize: true,
-            chainId: 31337,
-          }),
+          // Normal Config
+          accounts: {
+            accountsBalance: "10000000000000000000000000",
+            //   mnemonic: MNEMONIC,
+          },
+          allowUnlimitedContractSize: true,
+          chainId: 31337,
+        }),
     },
     hardhat_node: {
       live: false,
@@ -241,31 +241,31 @@ const config: HardhatUserConfig = {
       accounts: hardhatAccounts,
       chainId: 8453,
     },
-    opBNBMainnet: {
-      url: process.env.OP_BNB_MAINNET_URL,
-      accounts: hardhatAccounts,
-      chainId: 204,
-    },
-    opBNBTestnet: {
-      url: process.env.OP_BNB_TESTNET_URL,
-      accounts: hardhatAccounts,
-      chainId: 5611,
-    },
-    mantleMainnet: {
-      url: process.env.MANTLE_MAINNET_URL,
-      accounts: hardhatAccounts,
-      chainId: 5000,
-    },
-    mantleTestnet: {
-      url: process.env.MANTLE_TESTNET_URL,
-      accounts: hardhatAccounts,
-      chainId: 5001,
-    },
-    comboTestnet: {
-      url: process.env.COMBO_TESTNET_URL,
-      accounts: hardhatAccounts,
-      chainId: 91715,
-    },
+    // opBNBMainnet: {
+    //   url: process.env.OP_BNB_MAINNET_URL,
+    //   accounts: hardhatAccounts,
+    //   chainId: 204,
+    // },
+    // opBNBTestnet: {
+    //   url: process.env.OP_BNB_TESTNET_URL,
+    //   accounts: hardhatAccounts,
+    //   chainId: 5611,
+    // },
+    // mantleMainnet: {
+    //   url: process.env.MANTLE_MAINNET_URL,
+    //   accounts: hardhatAccounts,
+    //   chainId: 5000,
+    // },
+    // mantleTestnet: {
+    //   url: process.env.MANTLE_TESTNET_URL,
+    //   accounts: hardhatAccounts,
+    //   chainId: 5001,
+    // },
+    // comboTestnet: {
+    //   url: process.env.COMBO_TESTNET_URL,
+    //   accounts: hardhatAccounts,
+    //   chainId: 91715,
+    // },
   },
 
   gasReporter: {
@@ -299,11 +299,11 @@ const config: HardhatUserConfig = {
       baseMainnet: process.env.BASE_API_KEY || "",
       zkEVMMainnet: process.env.ZKEVM_API_KEY || "",
       zkEVMGoerli: process.env.ZKEVM_API_KEY || "",
-      opBNBTestnet: process.env.OP_BNB_API_KEY || "",
-      opBNBMainnet: process.env.OP_BNB_API_KEY || "",
-      mantleTestnet: "PLACEHOLDER_STRING",
-      mantleMainnet: "PLACEHOLDER_STRING",
-      comboTestnet: process.env.COMBO_API_KEY || "",
+      // opBNBTestnet: process.env.OP_BNB_API_KEY || "",
+      // opBNBMainnet: process.env.OP_BNB_API_KEY || "",
+      // mantleTestnet: "PLACEHOLDER_STRING",
+      // mantleMainnet: "PLACEHOLDER_STRING",
+      // comboTestnet: process.env.COMBO_API_KEY || "",
     },
     customChains: [
       {
@@ -354,46 +354,46 @@ const config: HardhatUserConfig = {
           browserURL: "https://testnet-zkevm.polygonscan.com",
         },
       },
-      {
-        network: "opBNBMainnet",
-        chainId: 204,
-        urls: {
-          apiURL: `https://open-platform.nodereal.io/${process.env.OP_BNB_API_KEY}/op-bnb-mainnet/contract/`,
-          browserURL: "https://mainnet.opbnbscan.com/",
-        },
-      },
-      {
-        network: "opBNBTestnet",
-        chainId: 5611,
-        urls: {
-          apiURL: `https://open-platform.nodereal.io/${process.env.OP_BNB_API_KEY}/op-bnb-testnet/contract/`,
-          browserURL: "https://opbscan.com",
-        },
-      },
-      {
-        network: "mantleMainnet",
-        chainId: 5000,
-        urls: {
-          apiURL: "https://explorer.mantle.xyz/api",
-          browserURL: "https://explorer.mantle.xyz",
-        },
-      },
-      {
-        network: "mantleTestnet",
-        chainId: 5001,
-        urls: {
-          apiURL: "https://explorer.testnet.mantle.xyz/api",
-          browserURL: "https://explorer.testnet.mantle.xyz",
-        },
-      },
-      {
-        network: "comboTestnet",
-        chainId: 91715,
-        urls: {
-          apiURL: `https://open-platform.nodereal.io/${process.env.COMBO_API_KEY}/combotrace-testnet/contract/`,
-          browserURL: "https://combotrace-testnet.nodereal.io",
-        },
-      },
+      // {
+      //   network: "opBNBMainnet",
+      //   chainId: 204,
+      //   urls: {
+      //     apiURL: `https://open-platform.nodereal.io/${process.env.OP_BNB_API_KEY}/op-bnb-mainnet/contract/`,
+      //     browserURL: "https://mainnet.opbnbscan.com/",
+      //   },
+      // },
+      // {
+      //   network: "opBNBTestnet",
+      //   chainId: 5611,
+      //   urls: {
+      //     apiURL: `https://open-platform.nodereal.io/${process.env.OP_BNB_API_KEY}/op-bnb-testnet/contract/`,
+      //     browserURL: "https://opbscan.com",
+      //   },
+      // },
+      // {
+      //   network: "mantleMainnet",
+      //   chainId: 5000,
+      //   urls: {
+      //     apiURL: "https://explorer.mantle.xyz/api",
+      //     browserURL: "https://explorer.mantle.xyz",
+      //   },
+      // },
+      // {
+      //   network: "mantleTestnet",
+      //   chainId: 5001,
+      //   urls: {
+      //     apiURL: "https://explorer.testnet.mantle.xyz/api",
+      //     browserURL: "https://explorer.testnet.mantle.xyz",
+      //   },
+      // },
+      // {
+      //   network: "comboTestnet",
+      //   chainId: 91715,
+      //   urls: {
+      //     apiURL: `https://open-platform.nodereal.io/${process.env.COMBO_API_KEY}/combotrace-testnet/contract/`,
+      //     browserURL: "https://combotrace-testnet.nodereal.io",
+      //   },
+      // },
     ],
   },
 };
