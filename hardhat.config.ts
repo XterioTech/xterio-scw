@@ -111,6 +111,18 @@ const config: HardhatUserConfig = {
       chainId: 1,
       accounts: hardhatAccounts,
     },
+    sepolia: {
+      url: "https://sepolia.infura.io/v3/" + process.env.API_KEY_INFURA,
+      accounts: hardhatAccounts,
+    },
+    xterioTestnet: {
+      url: "https://xterio.alt.technology",
+      accounts: hardhatAccounts,
+    },
+    xterio: {
+      url: "https://xterio.alt.technology",
+      accounts: hardhatAccounts,
+    },
     goerli: {
       url: process.env.GOERLI_URL || "",
       chainId: 5,
@@ -279,6 +291,7 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: {
       mainnet: process.env.ETHERSCAN_API_KEY || "",
+      sepolia: process.env.ETHERSCAN_API_KEY || "",
       goerli: process.env.ETHERSCAN_API_KEY || "",
       polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
       polygon: process.env.POLYGONSCAN_API_KEY || "",
@@ -304,8 +317,26 @@ const config: HardhatUserConfig = {
       // mantleTestnet: "PLACEHOLDER_STRING",
       // mantleMainnet: "PLACEHOLDER_STRING",
       // comboTestnet: process.env.COMBO_API_KEY || "",
+      xterioTestnet: "no need",
+      xterio: "no need",
     },
     customChains: [
+      {
+        network: "xterioTestnet",
+        chainId: 1637450,
+        urls: {
+          apiURL: `https://testnet.xterscan.io/api`,
+          browserURL: "https://testnet.xterscan.io/",
+        },
+      },
+      {
+        network: "xterio",
+        chainId: 112358,
+        urls: {
+          apiURL: `https://xterscan.io/api`,
+          browserURL: "https://xterscan.io/",
+        },
+      },
       {
         network: "lineaGoerli",
         chainId: 59140,

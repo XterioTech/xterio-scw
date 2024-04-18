@@ -93,6 +93,18 @@ export const DEPLOYMENT_CHAIN_GAS_PRICES: Record<
   // Testnets
   80001: { gasPrice: parseUnits("100", "gwei") },
   97: { gasPrice: parseUnits("5", "gwei") },
+  11155111: {
+    maxPriorityFeePerGas: parseUnits("1", "gwei"),
+    maxFeePerGas: parseUnits("100", "gwei"),
+  },
+  1637450: {
+    maxPriorityFeePerGas: parseUnits("1", "gwei"),
+    maxFeePerGas: parseUnits("100", "gwei"),
+  },
+  112358: {
+    maxPriorityFeePerGas: parseUnits("1", "gwei"),
+    maxFeePerGas: parseUnits("100", "gwei"),
+  },
   5: {
     maxPriorityFeePerGas: parseUnits("1", "gwei"),
     maxFeePerGas: parseUnits("100", "gwei"),
@@ -155,6 +167,18 @@ export const factoryStakeConfig: Record<number, StakingConfig> = {
     stakeInWei: parseEther("0.01"),
   },
   97: {
+    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
+    stakeInWei: parseEther("0.01"),
+  },
+  11155111: {
+    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
+    stakeInWei: parseEther("0.01"),
+  },
+  1637450: {
+    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
+    stakeInWei: parseEther("0.01"),
+  },
+  112358: {
     unstakeDelayInSec: 60 * 60 * 24, // 1 Day
     stakeInWei: parseEther("0.01"),
   },
@@ -521,10 +545,10 @@ export const deploy = async (
     arrayify(initCode)
       .map((x) => (x === 0 ? 4 : 16))
       .reduce((sum, x) => sum + x) +
-      (200 * initCode.length) / 2 + // actual is usually somewhat smaller (only deposited code, not entire constructor)
-      6 * Math.ceil(initCode.length / 64) + // hash price. very minor compared to deposit costs
-      32000 +
-      21000;
+    (200 * initCode.length) / 2 + // actual is usually somewhat smaller (only deposited code, not entire constructor)
+    6 * Math.ceil(initCode.length / 64) + // hash price. very minor compared to deposit costs
+    32000 +
+    21000;
   console.log("gasLimit computed: ", gasLimit);
   const ret = await factory.deploy(initCode, saltBytes32, options);
   await ret.wait(2);
