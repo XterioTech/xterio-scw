@@ -1,3 +1,7 @@
+/* eslint-disable node/no-missing-import */
+/* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
+/* eslint-disable prettier/prettier */
 import { ethers, run, network } from "hardhat";
 import {
   deployContract,
@@ -84,6 +88,10 @@ async function deployBaseWalletImpContract(deployerInstance: Deployer) {
         constructorArguments: [entryPointAddress],
       });
     } else {
+      await run(`verify:verify`, {
+        address: baseImpAddress,
+        constructorArguments: [entryPointAddress],
+      });
       console.log("Base Imp is already deployed with address ", baseImpAddress);
     }
   } catch (err) {
@@ -129,6 +137,10 @@ async function deployWalletFactoryContract(deployerInstance: Deployer) {
         constructorArguments: [baseImpAddress],
       });
     } else {
+      await run(`verify:verify`, {
+        address: walletFactoryComputedAddr,
+        constructorArguments: [baseImpAddress],
+      });
       console.log(
         "Wallet Factory is Already Deployed with address ",
         walletFactoryComputedAddr
@@ -309,12 +321,11 @@ async function deployVerifySingeltonPaymaster(deployerInstance: Deployer) {
     const VerifyingSingletonPaymaster = await ethers.getContractFactory(
       "VerifyingSingletonPaymaster"
     );
-    const verifyingSingletonPaymasterBytecode = `${
-      VerifyingSingletonPaymaster.bytecode
-    }${encodeParam("address", owner).slice(2)}${encodeParam(
-      "address",
-      entryPointAddress
-    ).slice(2)}${encodeParam("address", verifyingSigner).slice(2)}`;
+    const verifyingSingletonPaymasterBytecode = `${VerifyingSingletonPaymaster.bytecode
+      }${encodeParam("address", owner).slice(2)}${encodeParam(
+        "address",
+        entryPointAddress
+      ).slice(2)}${encodeParam("address", verifyingSigner).slice(2)}`;
 
     const verifyingSingletonPaymasterComputedAddr =
       await deployerInstance.addressOf(salt);
@@ -360,7 +371,7 @@ async function getPredeployedDeployerContractInstance(): Promise<Deployer> {
 
   if (code === "0x") {
     console.log(`Deployer not deployed on chain ${chainId}, deploy it with deployer-contract.deploy.ts script before using this script.`);
-    throw new Error ('Deployer not deployed');
+    throw new Error('Deployer not deployed');
   } else {
     console.log('Deploying with EOA %s through Deployer Contract %s', signer.address, DEPLOYER_CONTRACT_ADDRESS);
     return Deployer__factory.connect(DEPLOYER_CONTRACT_ADDRESS, signer);
@@ -370,21 +381,21 @@ async function getPredeployedDeployerContractInstance(): Promise<Deployer> {
 
 async function main() {
   const deployerInstance = await getPredeployedDeployerContractInstance();
-  await deployEntryPointContract(deployerInstance);
-  console.log("=========================================");
+  // await deployEntryPointContract(deployerInstance);
+  // console.log("=========================================");
   await deployBaseWalletImpContract(deployerInstance);
   console.log("=========================================");
   await deployWalletFactoryContract(deployerInstance);
   console.log("=========================================");
-  await deployGasEstimatorContract(deployerInstance);
-  console.log("=========================================");
-  await deployDecoderContract(deployerInstance);
-  console.log("=========================================");
-  await deployMultiSendContract(deployerInstance);
-  console.log("=========================================");
-  await deployMultiSendCallOnlyContract(deployerInstance);
-  console.log("=========================================");
-  await deployVerifySingeltonPaymaster(deployerInstance);
+  // await deployGasEstimatorContract(deployerInstance);
+  // console.log("=========================================");
+  // await deployDecoderContract(deployerInstance);
+  // console.log("=========================================");
+  // await deployMultiSendContract(deployerInstance);
+  // console.log("=========================================");
+  // await deployMultiSendCallOnlyContract(deployerInstance);
+  // console.log("=========================================");
+  // await deployVerifySingeltonPaymaster(deployerInstance);
 }
 
 main().catch((error) => {

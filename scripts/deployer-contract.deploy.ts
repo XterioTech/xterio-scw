@@ -1,3 +1,7 @@
+/* eslint-disable camelcase */
+/* eslint-disable node/no-missing-import */
+/* eslint-disable import/no-duplicates */
+/* eslint-disable prettier/prettier */
 import { ethers } from "hardhat";
 import { getContractAddress } from "ethers/lib/utils";
 import { Deployer__factory } from "../typechain";
@@ -27,7 +31,7 @@ async function main() {
       throw new Error("FUNDING_ACCOUNT_PRIVATE_KEY not set");
     }
     const fundingAccount = new ethers.Wallet(fundingAccountKey, provider);
-    
+
     const deployerContractAddress = getContractAddress({
       from: deployer.address,
       nonce: 0,
@@ -38,7 +42,7 @@ async function main() {
     const code = await provider.getCode(deployerContractAddress);
     if (code === "0x") {
       console.log("Deployer contract has not been deployed yet");
-      
+
       console.log("Funding eoa address", fundingAccount.address);
       console.log("Deployer eoa address", deployer.address);
       const [deployerBalance, signerBalance] = await Promise.all([
@@ -64,7 +68,7 @@ async function main() {
         }
       }
       console.log("Deploying Deployer Contract...");
-      //const deployerContractDeployed = await new Deployer__factory(deployer).deploy({maxFeePerGas: 350e9, maxPriorityFeePerGas: 100e9, nonce: 0});
+      // const deployerContractDeployed = await new Deployer__factory(deployer).deploy({maxFeePerGas: 350e9, maxPriorityFeePerGas: 100e9, nonce: 0});
       const deployerContractDeployed = await new Deployer__factory(deployer).deploy();
       await deployerContractDeployed.deployed();
       console.log(
@@ -88,16 +92,16 @@ function getDeploymentGasPrice(): number {
   } else if (hardhat.network.name === "goerli" && hardhat.network.config.chainId === 5) {
     return 400e9;
   } else if (hardhat.network.name === "avalancheTest" && hardhat.network.config.chainId === 43113) {
-    return 50e9; //50 nAvax
+    return 50e9; // 50 nAvax
   } else if (hardhat.network.name === "arbitrumGoerli" && hardhat.network.config.chainId === 421613) {
-    return 10e9; //10 Gwei
+    return 10e9; // 10 Gwei
   } else if (hardhat.network.name === "optimismGoerli" && hardhat.network.config.chainId === 420) {
-    return 10e9; //10 gwei
+    return 10e9; // 10 gwei
   } else if (hardhat.network.name === "bnb_testnet" && hardhat.network.config.chainId === 97) {
-    return 50e9; //50 gwei  
+    return 50e9; // 50 gwei  
   } else if (hardhat.network.name === "zkevm_testnet" && hardhat.network.config.chainId === 1442) {
-    return 100e9; //100 gwei  
-  // MAINNETS
+    return 100e9; // 100 gwei  
+    // MAINNETS
   } else if (hardhat.network.name === "polygon_mainnet" && hardhat.network.config.chainId === 137) {
     return 500e9; // 500 gwei
   } else if (hardhat.network.name === "eth_mainnet" && hardhat.network.config.chainId === 1) {
@@ -112,7 +116,7 @@ function getDeploymentGasPrice(): number {
     return 10e9; // 10 gwei
   } else if (hardhat.network.name === "zkevm_mainnet" && hardhat.network.config.chainId === 1101) {
     return 10e9; // 500 gwei
-  // OTHERWISE CHECK HARDHAT CONFIG. IF NOT SET IN CONFIG, USE 100 GWEI
+    // OTHERWISE CHECK HARDHAT CONFIG. IF NOT SET IN CONFIG, USE 100 GWEI
   } else {
     return hardhat.network.config.gasPrice === "auto" ? 100e9 : hardhat.network.config.gasPrice;
   }
