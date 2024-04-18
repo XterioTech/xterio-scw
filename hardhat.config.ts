@@ -73,6 +73,27 @@ const config: HardhatUserConfig = {
           ? [process.env.PRIVATE_KEY]
           : walletUtils.makeKeyList(),
     },
+    sepolia: {
+      url: "https://sepolia.infura.io/v3/" + process.env.API_KEY_INFURA,
+      accounts:
+        process.env.PRIVATE_KEY !== undefined
+          ? [process.env.PRIVATE_KEY]
+          : walletUtils.makeKeyList(),
+    },
+    xterioTestnet: {
+      url: "https://xterio-testnet.alt.technology/",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined
+          ? [process.env.PRIVATE_KEY]
+          : walletUtils.makeKeyList(),
+    },
+    xterio: {
+      url: "https://xterio-fullnode.alt.technology/",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined
+          ? [process.env.PRIVATE_KEY]
+          : walletUtils.makeKeyList(),
+    },
     polygon_mainnet: {
       url: process.env.POLYGON_URL || "",
       chainId: 137,
@@ -80,7 +101,7 @@ const config: HardhatUserConfig = {
         process.env.PRIVATE_KEY !== undefined
           ? [process.env.PRIVATE_KEY]
           : walletUtils.makeKeyList(),
-      //: 200e9,    
+      // 200e9,
     },
     polygon_mumbai: {
       url: process.env.POLYGON_MUMBAI_URL || "",
@@ -107,7 +128,7 @@ const config: HardhatUserConfig = {
         process.env.PRIVATE_KEY !== undefined
           ? [process.env.PRIVATE_KEY]
           : walletUtils.makeKeyList(),
-          gasPrice: 50e9
+      // gasPrice: 50e9
     },
     avalancheMain: {
       url: "https://api.avax.network/ext/bc/C/rpc",
@@ -140,7 +161,7 @@ const config: HardhatUserConfig = {
           ? [process.env.PRIVATE_KEY]
           : walletUtils.makeKeyList(),
       chainId: 421613,
-      //gasPrice: 2e9, //2 gwei
+      // gasPrice: 2e9, // 2 gwei
     },
     arbitrumTest: {
       url: "https://rinkeby.arbitrum.io/rpc",
@@ -173,7 +194,7 @@ const config: HardhatUserConfig = {
         process.env.PRIVATE_KEY !== undefined
           ? [process.env.PRIVATE_KEY]
           : walletUtils.makeKeyList(),
-      //gasPrice: 50e9,    
+      // gasPrice: 50e9,
     },
     optimismGoerli: {
       url: `https://goerli.optimism.io`,
@@ -228,6 +249,7 @@ const config: HardhatUserConfig = {
     apiKey: {
       mainnet: process.env.ETHERSCAN_API_KEY || "",
       goerli: process.env.ETHERSCAN_API_KEY || "",
+      sepolia: process.env.ETHERSCAN_API_KEY || "",
       polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
       polygon: process.env.POLYGONSCAN_API_KEY || "",
       bscTestnet: process.env.BSCSCAN_API_KEY || "",
@@ -241,7 +263,27 @@ const config: HardhatUserConfig = {
       arbitrumOne: process.env.ARBITRUM_API_KEY || "",
       optimisticGoerli: process.env.OPTIMISTIC_API_KEY || "",
       optimisticEthereum: process.env.OPTIMISTIC_API_KEY || "",
+      xterioTestnet: "no need",
+      xterio: "no need",
     },
+    customChains: [
+      {
+        network: "xterioTestnet",
+        chainId: 1637450,
+        urls: {
+          apiURL: `https://testnet.xterscan.io/api`,
+          browserURL: "https://testnet.xterscan.io/",
+        },
+      },
+      {
+        network: "xterio",
+        chainId: 112358,
+        urls: {
+          apiURL: `https://xterscan.io/api`,
+          browserURL: "https://xterscan.io/",
+        },
+      },
+    ],
   },
 };
 
