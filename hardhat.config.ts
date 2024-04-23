@@ -116,7 +116,7 @@ const config: HardhatUserConfig = {
       accounts: hardhatAccounts,
     },
     xterioTestnet: {
-      url: "https://xterio.alt.technology",
+      url: "https://xterio-testnet.alt.technology/",
       accounts: hardhatAccounts,
     },
     xterio: {

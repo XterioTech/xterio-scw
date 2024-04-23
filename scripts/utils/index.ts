@@ -62,27 +62,23 @@ export const DEPLOYMENT_SALTS_DEV: DeploymentSaltsType = {
     "DEVX_SMART_CONTRACT_OWNERSHIP_REGISTRY_MODULE_V0_21082023",
 };
 
-// Prod Salts
+// Prod Salts === Dev Salts
 export const DEPLOYMENT_SALTS_PROD: DeploymentSaltsType = {
-  ENTRY_POINT: "",
-  MULTI_SEND: "",
-  WALLET_FACTORY: "PROD_WALLET_FACTORY_V2_0509023SexZu7Y",
-  WALLET_IMP: "PROD_WALLET_IMP_V2_05092023_ixWZVOM",
-  SINGELTON_PAYMASTER: "PROD_SINGLETON_PAYMASTER_V1_22082023N4hlwuH",
-  ECDSA_REGISTRY_MODULE: "PROD_ECDSA_REGISTRY_MODULE_V1_22082023_ypI3tHh",
-  MULTICHAIN_VALIDATOR_MODULE:
-    "PROD_MULTICHAIN_VALIDATOR_MODULE_V1_22082023_vdQZbfh",
-  PASSKEY_MODULE: "PROD_PASSKEY_MODULE_V1_22082023_n0nz9WE",
-  SESSION_KEY_MANAGER_MODULE:
-    "PROD_SESSION_KEY_MANAGER_MODULE_V2_05092023_N2WXNDk",
-  SESSION_KEY_MANAGER_MODULE_V2:
-    "PROD_SESSION_KEY_MANAGER_MODULE_V2_02092023_lgskxU1", // 0x000002fbffedd9b33f4e7156f2de8d48945e7489
-  BATCHED_SESSION_ROUTER_MODULE:
-    "PROD_BATCHED_SESSION_ROUTER_MODULE_V1_JwFzn0L", // 0x000008da71757c0e1d83ce56c823e25aa49bc058
+  ENTRY_POINT: "DEVX_ENTRY_POINT_V0_30032023",
+  MULTI_SEND: "DEVX_MULTI_SEND_V0_21082023",
+  WALLET_FACTORY: "DEVX_WALLET_FACTORY_V2_050920203",
+  WALLET_IMP: "DEVX_WALLET_IMP_V2_05092023",
+  SINGELTON_PAYMASTER: "DEVX_SINGLETON_PAYMASTER_V1_21082024",
+  ECDSA_REGISTRY_MODULE: "DEVX_ECDSA_REGISTRY_MODULE_V0_21082023",
+  MULTICHAIN_VALIDATOR_MODULE: "DEVX_MULTICHAIN_VALIDATOR_MODULE_V0_21082023",
+  PASSKEY_MODULE: "DEVX_PASSKEY_MODULE_V0_21082023",
+  SESSION_KEY_MANAGER_MODULE: "DEVX_SESSION_KEY_MANAGER_MODULE_V1_05092023",
+  SESSION_KEY_MANAGER_MODULE_V2: "DEVX_SESSION_KEY_MANAGER_MODULE_V2",
+  BATCHED_SESSION_ROUTER_MODULE: "DEVX_BATCHED_SESSION_ROUTER_MODULE_V1",
   ERC20_SESSION_VALIDATION_MODULE:
-    "PROD_ERC20_SESSION_VALIDATION_MODULE_V2_05092023NdquNFM",
+    "DEVX_ERC20_SESSION_VALIDATION_MODULE_V1_05092023",
   SMART_CONTRACT_OWNERSHIP_REGISTRY_MODULE:
-    "PROD_SMART_CONTRACT_OWNERSHIP_REGISTRY_MODULE_V1_22082023_6X7yarN",
+    "DEVX_SMART_CONTRACT_OWNERSHIP_REGISTRY_MODULE_V0_21082023",
 };
 
 export const DEPLOYMENT_CHAIN_GAS_PRICES: Record<
@@ -98,10 +94,6 @@ export const DEPLOYMENT_CHAIN_GAS_PRICES: Record<
     maxFeePerGas: parseUnits("100", "gwei"),
   },
   1637450: {
-    maxPriorityFeePerGas: parseUnits("1", "gwei"),
-    maxFeePerGas: parseUnits("100", "gwei"),
-  },
-  112358: {
     maxPriorityFeePerGas: parseUnits("1", "gwei"),
     maxFeePerGas: parseUnits("100", "gwei"),
   },
@@ -141,6 +133,10 @@ export const DEPLOYMENT_CHAIN_GAS_PRICES: Record<
   137: { maxPriorityFeePerGas: parseUnits("50", "gwei") },
   56: { maxPriorityFeePerGas: parseUnits("10", "gwei") },
   1: { maxPriorityFeePerGas: parseUnits("30", "gwei") },
+  112358: {
+    maxPriorityFeePerGas: parseUnits("1", "gwei"),
+    maxFeePerGas: parseUnits("2", "gwei"),
+  },
   42161: { gasPrice: parseUnits("1", "gwei") },
   42170: {
     gasPrice: parseUnits("1", "gwei"),
@@ -175,10 +171,6 @@ export const factoryStakeConfig: Record<number, StakingConfig> = {
     stakeInWei: parseEther("0.01"),
   },
   1637450: {
-    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
-    stakeInWei: parseEther("0.01"),
-  },
-  112358: {
     unstakeDelayInSec: 60 * 60 * 24, // 1 Day
     stakeInWei: parseEther("0.01"),
   },
@@ -235,6 +227,10 @@ export const factoryStakeConfig: Record<number, StakingConfig> = {
   1: {
     unstakeDelayInSec: 60 * 60 * 24, // 1 Day
     stakeInWei: parseEther("0.06"), // 1 ETH = $1,674.88
+  },
+  112358: {
+    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
+    stakeInWei: parseEther("0.01"), // 0.01 BNB
   },
   42161: {
     unstakeDelayInSec: 60 * 60 * 24, // 1 Day
@@ -545,10 +541,10 @@ export const deploy = async (
     arrayify(initCode)
       .map((x) => (x === 0 ? 4 : 16))
       .reduce((sum, x) => sum + x) +
-    (200 * initCode.length) / 2 + // actual is usually somewhat smaller (only deposited code, not entire constructor)
-    6 * Math.ceil(initCode.length / 64) + // hash price. very minor compared to deposit costs
-    32000 +
-    21000;
+      (200 * initCode.length) / 2 + // actual is usually somewhat smaller (only deposited code, not entire constructor)
+      6 * Math.ceil(initCode.length / 64) + // hash price. very minor compared to deposit costs
+      32000 +
+      21000;
   console.log("gasLimit computed: ", gasLimit);
   const ret = await factory.deploy(initCode, saltBytes32, options);
   await ret.wait(2);
