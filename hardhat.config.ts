@@ -107,7 +107,7 @@ const config: HardhatUserConfig = {
       gasPrice: parseUnits("1", "gwei").toNumber(),
     },
     eth_mainnet: {
-      url: process.env.ETH_MAINNET_URL || "",
+      url: "https://mainnet.infura.io/v3/" + process.env.API_KEY_INFURA,
       chainId: 1,
       accounts: hardhatAccounts,
     },
@@ -253,11 +253,11 @@ const config: HardhatUserConfig = {
       accounts: hardhatAccounts,
       chainId: 8453,
     },
-    // opBNBMainnet: {
-    //   url: process.env.OP_BNB_MAINNET_URL,
-    //   accounts: hardhatAccounts,
-    //   chainId: 204,
-    // },
+    opBNBMainnet: {
+      url: "https://opbnb-mainnet-rpc.bnbchain.org",
+      accounts: hardhatAccounts,
+      chainId: 204,
+    },
     // opBNBTestnet: {
     //   url: process.env.OP_BNB_TESTNET_URL,
     //   accounts: hardhatAccounts,
@@ -313,7 +313,7 @@ const config: HardhatUserConfig = {
       zkEVMMainnet: process.env.ZKEVM_API_KEY || "",
       zkEVMGoerli: process.env.ZKEVM_API_KEY || "",
       // opBNBTestnet: process.env.OP_BNB_API_KEY || "",
-      // opBNBMainnet: process.env.OP_BNB_API_KEY || "",
+      opBNBMainnet: "no need",
       // mantleTestnet: "PLACEHOLDER_STRING",
       // mantleMainnet: "PLACEHOLDER_STRING",
       // comboTestnet: process.env.COMBO_API_KEY || "",
@@ -385,14 +385,14 @@ const config: HardhatUserConfig = {
           browserURL: "https://testnet-zkevm.polygonscan.com",
         },
       },
-      // {
-      //   network: "opBNBMainnet",
-      //   chainId: 204,
-      //   urls: {
-      //     apiURL: `https://open-platform.nodereal.io/${process.env.OP_BNB_API_KEY}/op-bnb-mainnet/contract/`,
-      //     browserURL: "https://mainnet.opbnbscan.com/",
-      //   },
-      // },
+      {
+        network: "opBNBMainnet",
+        chainId: 204,
+        urls: {
+          apiURL: `https://open-platform.nodereal.io/${process.env.OP_BNB_API_KEY}/op-bnb-mainnet/contract/`,
+          browserURL: "https://mainnet.opbnbscan.com/",
+        },
+      },
       // {
       //   network: "opBNBTestnet",
       //   chainId: 5611,

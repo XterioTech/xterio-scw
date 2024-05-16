@@ -148,7 +148,7 @@ function getDeploymentGasPrice(): number {
     hardhat.network.name === "polygon_mainnet" &&
     hardhat.network.config.chainId === 137
   ) {
-    return 500e9; // 500 gwei
+    return 50e9; // 50 gwei
   } else if (
     hardhat.network.name === "eth_mainnet" &&
     hardhat.network.config.chainId === 1
@@ -182,7 +182,7 @@ function getDeploymentGasPrice(): number {
     // OTHERWISE CHECK HARDHAT CONFIG. IF NOT SET IN CONFIG, USE 100 GWEI
   } else {
     return hardhat.network.config.gasPrice === "auto"
-      ? 100e9
+      ? 10e9
       : hardhat.network.config.gasPrice;
   }
 }
