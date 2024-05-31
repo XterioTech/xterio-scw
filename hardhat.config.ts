@@ -119,6 +119,13 @@ const config: HardhatUserConfig = {
       url: "https://xterio-testnet.alt.technology/",
       accounts: hardhatAccounts,
     },
+    xterioTestnetETH: {
+      url: "https://xterio-eth-testnet.alt.technology",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined
+          ? [process.env.PRIVATE_KEY]
+          : walletUtils.makeKeyList(),
+    },
     xterio: {
       url: "https://xterio.alt.technology",
       accounts: hardhatAccounts,
@@ -127,6 +134,13 @@ const config: HardhatUserConfig = {
       url: process.env.GOERLI_URL || "",
       chainId: 5,
       accounts: hardhatAccounts,
+    },
+    xterioETH: {
+      url: "https://xterio-eth.alt.technology/",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined
+          ? [process.env.PRIVATE_KEY]
+          : walletUtils.makeKeyList(),
     },
     polygon_mainnet: {
       url: process.env.POLYGON_URL || "",
@@ -318,7 +332,9 @@ const config: HardhatUserConfig = {
       // mantleMainnet: "PLACEHOLDER_STRING",
       // comboTestnet: process.env.COMBO_API_KEY || "",
       xterioTestnet: "no need",
+      xterioTestnetETH: "no need",
       xterio: "no need",
+      xterioETH: "no need",
     },
     customChains: [
       {
@@ -330,11 +346,27 @@ const config: HardhatUserConfig = {
         },
       },
       {
+        network: "xterioTestnetETH",
+        chainId: 1637451,
+        urls: {
+          apiURL: `https://eth-testnet.xterscan.io/api`,
+          browserURL: "https://eth-testnet.xterscan.io",
+        },
+      },
+      {
         network: "xterio",
         chainId: 112358,
         urls: {
           apiURL: `https://xterscan.io/api`,
           browserURL: "https://xterscan.io/",
+        },
+      },
+      {
+        network: "xterioETH",
+        chainId: 2702128,
+        urls: {
+          apiURL: `https://eth.xterscan.io/api`,
+          browserURL: "https://eth.xterscan.io/",
         },
       },
       {

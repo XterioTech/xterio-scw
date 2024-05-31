@@ -97,6 +97,10 @@ export const DEPLOYMENT_CHAIN_GAS_PRICES: Record<
     maxPriorityFeePerGas: parseUnits("1", "gwei"),
     maxFeePerGas: parseUnits("100", "gwei"),
   },
+  1637451: {
+    maxPriorityFeePerGas: parseUnits("1", "gwei"),
+    maxFeePerGas: parseUnits("100", "gwei"),
+  },
   5: {
     maxPriorityFeePerGas: parseUnits("1", "gwei"),
     maxFeePerGas: parseUnits("100", "gwei"),
@@ -145,6 +149,10 @@ export const DEPLOYMENT_CHAIN_GAS_PRICES: Record<
     maxPriorityFeePerGas: parseUnits("1", "gwei"),
     maxFeePerGas: parseUnits("2", "gwei"),
   },
+  2702128: {
+    maxPriorityFeePerGas: parseUnits("1", "gwei"),
+    maxFeePerGas: parseUnits("2", "gwei"),
+  },
   42161: { gasPrice: parseUnits("1", "gwei") },
   42170: {
     gasPrice: parseUnits("1", "gwei"),
@@ -179,6 +187,10 @@ export const factoryStakeConfig: Record<number, StakingConfig> = {
     stakeInWei: parseEther("0.01"),
   },
   1637450: {
+    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
+    stakeInWei: parseEther("0.01"),
+  },
+  1637451: {
     unstakeDelayInSec: 60 * 60 * 24, // 1 Day
     stakeInWei: parseEther("0.01"),
   },
@@ -239,6 +251,10 @@ export const factoryStakeConfig: Record<number, StakingConfig> = {
   112358: {
     unstakeDelayInSec: 60 * 60 * 24, // 1 Day
     stakeInWei: parseEther("0.01"), // 0.01 BNB
+  },
+  2702128: {
+    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
+    stakeInWei: parseEther("0.001"), // 0.01 BNB
   },
   42161: {
     unstakeDelayInSec: 60 * 60 * 24, // 1 Day
@@ -549,10 +565,10 @@ export const deploy = async (
     arrayify(initCode)
       .map((x) => (x === 0 ? 4 : 16))
       .reduce((sum, x) => sum + x) +
-      (200 * initCode.length) / 2 + // actual is usually somewhat smaller (only deposited code, not entire constructor)
-      6 * Math.ceil(initCode.length / 64) + // hash price. very minor compared to deposit costs
-      32000 +
-      21000;
+    (200 * initCode.length) / 2 + // actual is usually somewhat smaller (only deposited code, not entire constructor)
+    6 * Math.ceil(initCode.length / 64) + // hash price. very minor compared to deposit costs
+    32000 +
+    21000;
   console.log("gasLimit computed: ", gasLimit);
   const ret = await factory.deploy(initCode, saltBytes32, options);
   await ret.wait(2);
