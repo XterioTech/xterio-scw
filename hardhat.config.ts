@@ -62,29 +62,29 @@ const config: HardhatUserConfig = {
     hardhat: {
       ...(shouldRunInForkMode
         ? {
-            // Forking Config for Deployment Testing
-            chainId: 5000,
-            forking: {
-              url: process.env.MANTLE_MAINNET_URL,
+          // Forking Config for Deployment Testing
+          chainId: 5000,
+          forking: {
+            url: process.env.MANTLE_MAINNET_URL,
+          },
+          accounts: [
+            {
+              privateKey: process.env.PRIVATE_KEY!,
+              // This is a dummy value and will be overriden in the test by
+              // the account's actual balance from the forked chain
+              balance: "10000000000000000000000000",
             },
-            accounts: [
-              {
-                privateKey: process.env.PRIVATE_KEY!,
-                // This is a dummy value and will be overriden in the test by
-                // the account's actual balance from the forked chain
-                balance: "10000000000000000000000000",
-              },
-            ],
-          }
+          ],
+        }
         : {
-            // Normal Config
-            accounts: {
-              accountsBalance: "10000000000000000000000000",
-              //   mnemonic: MNEMONIC,
-            },
-            allowUnlimitedContractSize: true,
-            chainId: 31337,
-          }),
+          // Normal Config
+          accounts: {
+            accountsBalance: "10000000000000000000000000",
+            //   mnemonic: MNEMONIC,
+          },
+          allowUnlimitedContractSize: true,
+          chainId: 31337,
+        }),
     },
     hardhat_node: {
       live: false,
@@ -107,14 +107,40 @@ const config: HardhatUserConfig = {
       gasPrice: parseUnits("1", "gwei").toNumber(),
     },
     eth_mainnet: {
-      url: process.env.ETH_MAINNET_URL || "",
+      url: "https://mainnet.infura.io/v3/" + process.env.API_KEY_INFURA,
       chainId: 1,
+      accounts: hardhatAccounts,
+    },
+    sepolia: {
+      url: "https://sepolia.infura.io/v3/" + process.env.API_KEY_INFURA,
+      accounts: hardhatAccounts,
+    },
+    xterioTestnet: {
+      url: "https://xterio-testnet.alt.technology/",
+      accounts: hardhatAccounts,
+    },
+    xterioTestnetETH: {
+      url: "https://xterio-eth-testnet.alt.technology",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined
+          ? [process.env.PRIVATE_KEY]
+          : walletUtils.makeKeyList(),
+    },
+    xterio: {
+      url: "https://xterio.alt.technology",
       accounts: hardhatAccounts,
     },
     goerli: {
       url: process.env.GOERLI_URL || "",
       chainId: 5,
       accounts: hardhatAccounts,
+    },
+    xterioETH: {
+      url: "https://xterio-eth.alt.technology/",
+      accounts:
+        process.env.PRIVATE_KEY !== undefined
+          ? [process.env.PRIVATE_KEY]
+          : walletUtils.makeKeyList(),
     },
     polygon_mainnet: {
       url: process.env.POLYGON_URL || "",
@@ -242,30 +268,30 @@ const config: HardhatUserConfig = {
       chainId: 8453,
     },
     opBNBMainnet: {
-      url: process.env.OP_BNB_MAINNET_URL,
+      url: "https://opbnb-mainnet-rpc.bnbchain.org",
       accounts: hardhatAccounts,
       chainId: 204,
     },
-    opBNBTestnet: {
-      url: process.env.OP_BNB_TESTNET_URL,
-      accounts: hardhatAccounts,
-      chainId: 5611,
-    },
-    mantleMainnet: {
-      url: process.env.MANTLE_MAINNET_URL,
-      accounts: hardhatAccounts,
-      chainId: 5000,
-    },
-    mantleTestnet: {
-      url: process.env.MANTLE_TESTNET_URL,
-      accounts: hardhatAccounts,
-      chainId: 5001,
-    },
-    comboTestnet: {
-      url: process.env.COMBO_TESTNET_URL,
-      accounts: hardhatAccounts,
-      chainId: 91715,
-    },
+    // opBNBTestnet: {
+    //   url: process.env.OP_BNB_TESTNET_URL,
+    //   accounts: hardhatAccounts,
+    //   chainId: 5611,
+    // },
+    // mantleMainnet: {
+    //   url: process.env.MANTLE_MAINNET_URL,
+    //   accounts: hardhatAccounts,
+    //   chainId: 5000,
+    // },
+    // mantleTestnet: {
+    //   url: process.env.MANTLE_TESTNET_URL,
+    //   accounts: hardhatAccounts,
+    //   chainId: 5001,
+    // },
+    // comboTestnet: {
+    //   url: process.env.COMBO_TESTNET_URL,
+    //   accounts: hardhatAccounts,
+    //   chainId: 91715,
+    // },
   },
 
   gasReporter: {
@@ -279,6 +305,7 @@ const config: HardhatUserConfig = {
   etherscan: {
     apiKey: {
       mainnet: process.env.ETHERSCAN_API_KEY || "",
+      sepolia: process.env.ETHERSCAN_API_KEY || "",
       goerli: process.env.ETHERSCAN_API_KEY || "",
       polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
       polygon: process.env.POLYGONSCAN_API_KEY || "",
@@ -299,13 +326,49 @@ const config: HardhatUserConfig = {
       baseMainnet: process.env.BASE_API_KEY || "",
       zkEVMMainnet: process.env.ZKEVM_API_KEY || "",
       zkEVMGoerli: process.env.ZKEVM_API_KEY || "",
-      opBNBTestnet: process.env.OP_BNB_API_KEY || "",
-      opBNBMainnet: process.env.OP_BNB_API_KEY || "",
-      mantleTestnet: "PLACEHOLDER_STRING",
-      mantleMainnet: "PLACEHOLDER_STRING",
-      comboTestnet: process.env.COMBO_API_KEY || "",
+      // opBNBTestnet: process.env.OP_BNB_API_KEY || "",
+      opBNBMainnet: "no need",
+      // mantleTestnet: "PLACEHOLDER_STRING",
+      // mantleMainnet: "PLACEHOLDER_STRING",
+      // comboTestnet: process.env.COMBO_API_KEY || "",
+      xterioTestnet: "no need",
+      xterioTestnetETH: "no need",
+      xterio: "no need",
+      xterioETH: "no need",
     },
     customChains: [
+      {
+        network: "xterioTestnet",
+        chainId: 1637450,
+        urls: {
+          apiURL: `https://testnet.xterscan.io/api`,
+          browserURL: "https://testnet.xterscan.io/",
+        },
+      },
+      {
+        network: "xterioTestnetETH",
+        chainId: 1637451,
+        urls: {
+          apiURL: `https://eth-testnet.xterscan.io/api`,
+          browserURL: "https://eth-testnet.xterscan.io",
+        },
+      },
+      {
+        network: "xterio",
+        chainId: 112358,
+        urls: {
+          apiURL: `https://xterscan.io/api`,
+          browserURL: "https://xterscan.io/",
+        },
+      },
+      {
+        network: "xterioETH",
+        chainId: 2702128,
+        urls: {
+          apiURL: `https://eth.xterscan.io/api`,
+          browserURL: "https://eth.xterscan.io/",
+        },
+      },
       {
         network: "lineaGoerli",
         chainId: 59140,
@@ -362,38 +425,38 @@ const config: HardhatUserConfig = {
           browserURL: "https://mainnet.opbnbscan.com/",
         },
       },
-      {
-        network: "opBNBTestnet",
-        chainId: 5611,
-        urls: {
-          apiURL: `https://open-platform.nodereal.io/${process.env.OP_BNB_API_KEY}/op-bnb-testnet/contract/`,
-          browserURL: "https://opbscan.com",
-        },
-      },
-      {
-        network: "mantleMainnet",
-        chainId: 5000,
-        urls: {
-          apiURL: "https://explorer.mantle.xyz/api",
-          browserURL: "https://explorer.mantle.xyz",
-        },
-      },
-      {
-        network: "mantleTestnet",
-        chainId: 5001,
-        urls: {
-          apiURL: "https://explorer.testnet.mantle.xyz/api",
-          browserURL: "https://explorer.testnet.mantle.xyz",
-        },
-      },
-      {
-        network: "comboTestnet",
-        chainId: 91715,
-        urls: {
-          apiURL: `https://open-platform.nodereal.io/${process.env.COMBO_API_KEY}/combotrace-testnet/contract/`,
-          browserURL: "https://combotrace-testnet.nodereal.io",
-        },
-      },
+      // {
+      //   network: "opBNBTestnet",
+      //   chainId: 5611,
+      //   urls: {
+      //     apiURL: `https://open-platform.nodereal.io/${process.env.OP_BNB_API_KEY}/op-bnb-testnet/contract/`,
+      //     browserURL: "https://opbscan.com",
+      //   },
+      // },
+      // {
+      //   network: "mantleMainnet",
+      //   chainId: 5000,
+      //   urls: {
+      //     apiURL: "https://explorer.mantle.xyz/api",
+      //     browserURL: "https://explorer.mantle.xyz",
+      //   },
+      // },
+      // {
+      //   network: "mantleTestnet",
+      //   chainId: 5001,
+      //   urls: {
+      //     apiURL: "https://explorer.testnet.mantle.xyz/api",
+      //     browserURL: "https://explorer.testnet.mantle.xyz",
+      //   },
+      // },
+      // {
+      //   network: "comboTestnet",
+      //   chainId: 91715,
+      //   urls: {
+      //     apiURL: `https://open-platform.nodereal.io/${process.env.COMBO_API_KEY}/combotrace-testnet/contract/`,
+      //     browserURL: "https://combotrace-testnet.nodereal.io",
+      //   },
+      // },
     ],
   },
 };

@@ -401,8 +401,8 @@ export async function mainDeploy(): Promise<Record<string, string>> {
   await deployBaseWalletImpContract(deployerInstance);
   console.log("=========================================");
   await deployWalletFactoryContract(deployerInstance);
-  console.log("=========================================");
-  await deployVerifySingeltonPaymaster(deployerInstance);
+  // console.log("=========================================");
+  // await deployVerifySingeltonPaymaster(deployerInstance);
   console.log("=========================================");
   await deployEcdsaOwnershipRegistryModule(deployerInstance);
   console.log("=========================================");
