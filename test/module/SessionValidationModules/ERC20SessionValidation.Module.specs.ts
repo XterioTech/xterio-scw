@@ -143,8 +143,82 @@ describe("SessionKey: ERC20 Session Validation Module", async () => {
     return transferUserOp;
   };
 
-  it("MOVED: should be able to process Session Key signed userOp", async () => {
-    // moved to /test/bundler-integration/module/SessionValidationModules/ERC20SessionValidation.Module.specs.ts
+  // moved to /test/bundler-integration/module/SessionValidationModules/ERC20SessionValidation.Module.specs.ts
+  it("should be able to process Session Key signed userOp", async () => {
+    const {
+      entryPoint,
+      userSA,
+      sessionKeyManager,
+      erc20SessionModule,
+      sessionKeyData,
+      leafData,
+      merkleTree,
+      mockToken,
+    } = await setupTests();
+    const tokenAmountToTransfer = ethers.utils.parseEther("7");
+    const tokenAmount2ToTransfer = ethers.utils.parseEther("6");
+
+    const charlieTokenBalanceBefore = await mockToken.balanceOf(
+      charlie.address
+    );
+    const userSATokenBalanceBefore = await mockToken.balanceOf(userSA.address);
+
+    const transferUserOp = await makeErc20TransferUserOp(
+      mockToken.address,
+      tokenAmountToTransfer,
+      charlie.address,
+      ethers.utils.parseEther("0"),
+      {
+        entryPoint,
+        userSA,
+        sessionKeyManager,
+        erc20SessionModule,
+        sessionKeyData,
+        leafData,
+        merkleTree,
+      }
+    );
+
+    await entryPoint.handleOps([transferUserOp], alice.address, {
+      gasLimit: 10000000,
+    });
+
+    expect(await mockToken.balanceOf(charlie.address)).to.equal(
+      charlieTokenBalanceBefore.add(tokenAmountToTransfer)
+    );
+    expect(await mockToken.balanceOf(userSA.address)).to.equal(
+      userSATokenBalanceBefore.sub(tokenAmountToTransfer)
+    );
+
+    const transferUserOp2 = await makeErc20TransferUserOp(
+      mockToken.address,
+      tokenAmount2ToTransfer,
+      charlie.address,
+      ethers.utils.parseEther("0"),
+      {
+        entryPoint,
+        userSA,
+        sessionKeyManager,
+        erc20SessionModule,
+        sessionKeyData,
+        leafData,
+        merkleTree,
+      }
+    );
+    await entryPoint.handleOps([transferUserOp2], alice.address, {
+      gasLimit: 10000000,
+    });
+
+    expect(await mockToken.balanceOf(charlie.address)).to.equal(
+      charlieTokenBalanceBefore
+        .add(tokenAmountToTransfer)
+        .add(tokenAmount2ToTransfer)
+    );
+    expect(await mockToken.balanceOf(userSA.address)).to.equal(
+      userSATokenBalanceBefore
+        .sub(tokenAmountToTransfer)
+        .sub(tokenAmount2ToTransfer)
+    );
   });
 
   it("should revert when userOp is for an invalid token", async () => {

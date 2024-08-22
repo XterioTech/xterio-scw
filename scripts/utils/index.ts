@@ -565,10 +565,10 @@ export const deploy = async (
     arrayify(initCode)
       .map((x) => (x === 0 ? 4 : 16))
       .reduce((sum, x) => sum + x) +
-    (200 * initCode.length) / 2 + // actual is usually somewhat smaller (only deposited code, not entire constructor)
-    6 * Math.ceil(initCode.length / 64) + // hash price. very minor compared to deposit costs
-    32000 +
-    21000;
+      (200 * initCode.length) / 2 + // actual is usually somewhat smaller (only deposited code, not entire constructor)
+      6 * Math.ceil(initCode.length / 64) + // hash price. very minor compared to deposit costs
+      32000 +
+      21000;
   console.log("gasLimit computed: ", gasLimit);
   const ret = await factory.deploy(initCode, saltBytes32, options);
   await ret.wait(2);
