@@ -357,8 +357,8 @@ const config: HardhatUserConfig = {
         network: "xterio",
         chainId: 112358,
         urls: {
-          apiURL: `https://xterscan.io/api`,
-          browserURL: "https://xterscan.io/",
+          apiURL: `https://bnb.xterscan.io/api`,
+          browserURL: "https://bnb.xterscan.io/",
         },
       },
       {

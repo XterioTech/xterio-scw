@@ -79,6 +79,14 @@ export async function deployGeneric(
         console.log(err);
       }
     } else {
+      try {
+        await run("verify:verify", {
+          address: computedAddress,
+          constructorArguments,
+        });
+      } catch (err) {
+        console.log(err);
+      }
       console.log(
         `${contractName} is Already deployed with address ${computedAddress}`
       );
@@ -203,12 +211,11 @@ async function deployVerifySingeltonPaymaster(deployerInstance: Deployer) {
   const chainId = (await provider.getNetwork()).chainId;
   const gasPriceConfig = DEPLOYMENT_CHAIN_GAS_PRICES[chainId];
 
-  const bytecode = `${
-    VerifyingSingletonPaymaster__factory.bytecode
-  }${encodeParam("address", signer.address).slice(2)}${encodeParam(
-    "address",
-    entryPointAddress
-  ).slice(2)}${encodeParam("address", verifyingSigner).slice(2)}`;
+  const bytecode = `${VerifyingSingletonPaymaster__factory.bytecode
+    }${encodeParam("address", signer.address).slice(2)}${encodeParam(
+      "address",
+      entryPointAddress
+    ).slice(2)}${encodeParam("address", verifyingSigner).slice(2)}`;
 
   const paymasterAddress = await deployGeneric(
     deployerInstance,
