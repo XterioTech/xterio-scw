@@ -2,7 +2,7 @@
 
 # Biconomy Smart Account: Leading Implementation of Account Abstraction 🌐
 
-Biconomy Smart Account is a smart contract wallet focused on implementing Account Abstraction. It builds on the core concepts of Gnosis and Argent safes and is compliant with [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337) and [ERC-6900](https://eips.ethereum.org/EIPS/eip-6900).
+[Biconomy Smart Account](https://docs.biconomy.io/account) is a smart contract wallet focused on implementing Account Abstraction. It builds on the core concepts of Gnosis and Argent safes and is compliant with [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337) and [ERC-6900](https://eips.ethereum.org/EIPS/eip-6900).
 
 <p align="center"><img src="./assets/readme/biconomy-account-abstraction.png" width="550" alt="Biconomy Account Abstraction Banner"></p>
 
